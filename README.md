@@ -12,6 +12,9 @@ The application is deployed on [Vercel](https://vercel.com/) for seamless hostin
 
 - [Live Demo](#live-demo)
 - [Features](#features)
+  - [Dashboard Page (Overview)](#dashboard-page-overview)
+  - [Settings Page](#settings-page)
+  - [Additional Functionalities](#additional-functionalities)
 - [Tech Stack](#tech-stack)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)

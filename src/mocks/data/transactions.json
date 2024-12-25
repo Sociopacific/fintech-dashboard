@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "type": "withdrawal",
+    "description": "Card Withdrawal",
+    "date": "28 January 2021",
+    "amount": -850
+  },
+  {
+    "id": 2,
+    "type": "deposit",
+    "description": "PayPal Deposit",
+    "date": "25 January 2021",
+    "amount": 2500
+  },
+  {
+    "id": 3,
+    "type": "transfer",
+    "description": "Jane Smith",
+    "date": "21 January 2021",
+    "amount": 5400
+  },
+  {
+    "id": 4,
+    "type": "deposit",
+    "description": "Bank Transfer",
+    "date": "20 January 2021",
+    "amount": 1200
+  },
+  {
+    "id": 5,
+    "type": "withdrawal",
+    "description": "Online Shopping",
+    "date": "19 January 2021",
+    "amount": -300
+  },
+  {
+    "id": 6,
+    "type": "deposit",
+    "description": "Salary Credit",
+    "date": "18 January 2021",
+    "amount": 3500
+  }
+]

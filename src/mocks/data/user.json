@@ -1,0 +1,13 @@
+{
+  "name": "Aleksandr Iakimov",
+  "username": "Sociopacific",
+  "email": "sociopacific@gmail.com",
+  "password": "",
+  "dateOfBirth": "1998-01-09",
+  "permanentAddress": "Hauptstrasse 56",
+  "presentAddress": "Kopfhölzistrasse 70",
+  "city": "Basel",
+  "postalCode": "45962",
+  "country": "Switzerland",
+  "profileImage": "/avatar.jpg"
+}

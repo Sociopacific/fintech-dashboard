@@ -127,7 +127,7 @@ export function DashboardPage() {
                 </Tile>
               ))
             ) : (
-              <p>Loading cards...</p>
+              <p></p>
             )}
           </div>
         </div>

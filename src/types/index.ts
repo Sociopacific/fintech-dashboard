@@ -31,7 +31,7 @@ export type Card = {
   balance: number;
   cardHolder: string;
   validThru: string;
-  cardNumber: number;
+  cardNumber: string;
 };
 
 export type BalanceHistory = {
@@ -46,18 +46,23 @@ export type Contact = {
   avatar: string;
 };
 
-export type ExpenseStatisticItem = { category: string; percentage: number };
+export type ExpenseStatisticItem = { name: string; value: number };
+
+export enum TransactionType {
+  CARD = "card",
+  TRANSFER = "transfer",
+  PAYPAL = "paypal",
+}
 
 export type Transaction = {
-  id: number;
-  type: string;
-  description: string;
-  date: string;
+  type: TransactionType;
+  date: number;
   amount: number;
+  recipient?: string;
 };
 
-export type WeeklyActivity = {
-  labels: string[];
-  deposit: number[];
-  withdraw: number[];
+export type WeeklyActivityItem = {
+  name: string;
+  colorVar: string;
+  data: number[];
 };

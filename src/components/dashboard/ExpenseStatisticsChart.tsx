@@ -1,17 +1,16 @@
 import ReactECharts from "echarts-for-react";
 import { EChartsOption } from "echarts";
 import { getCssVarColor } from "@/utils";
-
-type ChartDataItem = {
-  value: number;
-  name: string;
-};
+import { useStore } from "@/store/useStore";
+import { ExpenseStatisticItem } from "@/types";
 
 type RadiusPair = [string, string];
 
 export const ExpenseStatisticsChart = () => {
+  const expenseStatistics = useStore((state) => state.expenseStatistics);
+
   const generateSeries = (
-    data: ChartDataItem[],
+    data: ExpenseStatisticItem[],
     radii: RadiusPair[]
   ): EChartsOption["series"] => {
     return data.map((item, index) => ({
@@ -57,13 +56,6 @@ export const ExpenseStatisticsChart = () => {
     }));
   };
 
-  const data: ChartDataItem[] = [
-    { value: 38, name: "Investment" },
-    { value: 25, name: "Entertainment" },
-    { value: 12, name: "Bill Expense" },
-    { value: 25, name: "Others" },
-  ];
-
   const radii: RadiusPair[] = [
     ["0%", "74%"],
     ["0%", "87%"],
@@ -75,7 +67,7 @@ export const ExpenseStatisticsChart = () => {
     tooltip: {
       trigger: "item",
     },
-    series: generateSeries(data, radii),
+    series: generateSeries(expenseStatistics || [], radii),
     color: [
       getCssVarColor("blue"),
       getCssVarColor("dark-blue"),

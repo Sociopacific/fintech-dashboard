@@ -1,20 +1,10 @@
 import { useState, useEffect } from "react";
 import { getCssVarColor } from "@/utils";
 import ReactECharts from "echarts-for-react";
+import { useStore } from "@/store/useStore";
 
 export const WeeklyActivityChart = () => {
-  const chartSeries = [
-    {
-      name: "Withdraw",
-      colorVar: "accent",
-      data: [450, 300, 350, 450, 150, 400, 350],
-    },
-    {
-      name: "Deposit",
-      colorVar: "blue",
-      data: [200, 100, 150, 300, 250, 200, 300],
-    },
-  ];
+  const weeklyActivity = useStore((state) => state.weeklyActivity);
 
   const getBarStyle = (colorVar: string) => ({
     color: getCssVarColor(colorVar),
@@ -92,7 +82,7 @@ export const WeeklyActivityChart = () => {
       left: 40,
       right: 10,
     },
-    series: chartSeries.map((s) => ({
+    series: (weeklyActivity || []).map((s) => ({
       name: s.name,
       type: "bar",
       data: s.data,
@@ -114,7 +104,7 @@ export const WeeklyActivityChart = () => {
   return (
     <div className="flex flex-col size-full p-3 sm:pl-9 sm:pt-[25px] sm:pb-5 sm:pr-5">
       <div className="flex justify-end gap-[30px] mb-4 mr-3">
-        {chartSeries
+        {(weeklyActivity || [])
           .slice()
           .reverse()
           .map((s) => (

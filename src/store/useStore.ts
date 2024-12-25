@@ -12,7 +12,7 @@ import {
   User,
   Card,
   Transaction,
-  WeeklyActivity,
+  WeeklyActivityItem,
   ExpenseStatisticItem,
   Contact,
   BalanceHistory,
@@ -22,7 +22,7 @@ type State = {
   user: User | undefined;
   cards: Card[] | undefined;
   transactions: Transaction[] | undefined;
-  weeklyActivity: WeeklyActivity | undefined;
+  weeklyActivity: WeeklyActivityItem[] | undefined;
   expenseStatistics: ExpenseStatisticItem[] | undefined;
   contacts: Contact[] | undefined;
   balanceHistory: BalanceHistory | undefined;
@@ -39,13 +39,13 @@ type State = {
   // Error state
   error: string | undefined;
 
-  fetchUserData: () => Promise<void>;
-  fetchCardsData: () => Promise<void>;
-  fetchTransactionsData: () => Promise<void>;
-  fetchWeeklyActivityData: () => Promise<void>;
-  fetchExpenseStatisticsData: () => Promise<void>;
-  fetchContactsData: () => Promise<void>;
-  fetchBalanceHistoryData: () => Promise<void>;
+  fetchUser: () => Promise<void>;
+  fetchCards: () => Promise<void>;
+  fetchTransactions: () => Promise<void>;
+  fetchWeeklyActivity: () => Promise<void>;
+  fetchExpenseStatistics: () => Promise<void>;
+  fetchContacts: () => Promise<void>;
+  fetchBalanceHistory: () => Promise<void>;
 
   updateUser: (newUserData: User) => void; // Method to update user data
 };
@@ -72,7 +72,7 @@ export const useStore = create<State>((set) => ({
   error: undefined,
 
   // Actions to fetch data
-  fetchUserData: async () => {
+  fetchUser: async () => {
     set({ isUserLoading: true, error: undefined });
     try {
       const userData = await fetchUser();
@@ -82,7 +82,7 @@ export const useStore = create<State>((set) => ({
     }
   },
 
-  fetchCardsData: async () => {
+  fetchCards: async () => {
     set({ isCardsLoading: true, error: undefined });
     try {
       const cardsData = await fetchCards();
@@ -92,7 +92,7 @@ export const useStore = create<State>((set) => ({
     }
   },
 
-  fetchTransactionsData: async () => {
+  fetchTransactions: async () => {
     set({ isTransactionsLoading: true, error: undefined });
     try {
       const transactionsData = await fetchTransactions();
@@ -105,7 +105,7 @@ export const useStore = create<State>((set) => ({
     }
   },
 
-  fetchWeeklyActivityData: async () => {
+  fetchWeeklyActivity: async () => {
     set({ isWeeklyActivityLoading: true, error: undefined });
     try {
       const weeklyActivityData = await fetchWeeklyActivity();
@@ -121,7 +121,7 @@ export const useStore = create<State>((set) => ({
     }
   },
 
-  fetchExpenseStatisticsData: async () => {
+  fetchExpenseStatistics: async () => {
     set({ isExpenseStatisticsLoading: true, error: undefined });
     try {
       const expenseStatisticsData = await fetchExpenseStatistics();
@@ -137,7 +137,7 @@ export const useStore = create<State>((set) => ({
     }
   },
 
-  fetchContactsData: async () => {
+  fetchContacts: async () => {
     set({ isContactsLoading: true, error: undefined });
     try {
       const contactsData = await fetchContacts();
@@ -147,7 +147,7 @@ export const useStore = create<State>((set) => ({
     }
   },
 
-  fetchBalanceHistoryData: async () => {
+  fetchBalanceHistory: async () => {
     set({ isBalanceHistoryLoading: true, error: undefined });
     try {
       const balanceHistoryData = await fetchBalanceHistory();
@@ -165,6 +165,7 @@ export const useStore = create<State>((set) => ({
 
   // Update user data
   updateUser: (newUserData: User) => {
+    console.log("Updating user data...", newUserData);
     set({ user: newUserData });
   },
 }));

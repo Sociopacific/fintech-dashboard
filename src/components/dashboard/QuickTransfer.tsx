@@ -3,78 +3,11 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import ArrowIcon from "@/assets/icons/arrow-right.svg?react";
 import SendIcon from "@/assets/icons/send.svg?react";
-
-interface User {
-  id: number;
-  name: string;
-  role: string;
-  avatar: string;
-}
-
-const users: User[] = [
-  {
-    id: 1,
-    name: "Liam Bator",
-    role: "CEO",
-    avatar: "https://randomuser.me/api/portraits/men/1.jpg",
-  },
-  {
-    id: 2,
-    name: "Randy Press",
-    role: "Director",
-    avatar: "https://randomuser.me/api/portraits/men/2.jpg",
-  },
-  {
-    id: 3,
-    name: "Workman",
-    role: "Designer",
-    avatar: "https://randomuser.me/api/portraits/men/3.jpg",
-  },
-  {
-    id: 4,
-    name: "Samuel Connor",
-    role: "Manager",
-    avatar: "https://randomuser.me/api/portraits/men/4.jpg",
-  },
-  {
-    id: 5,
-    name: "John Doe",
-    role: "Engineer",
-    avatar: "https://randomuser.me/api/portraits/men/5.jpg",
-  },
-  {
-    id: 6,
-    name: "James Smith",
-    role: "Developer",
-    avatar: "https://randomuser.me/api/portraits/men/6.jpg",
-  },
-  {
-    id: 7,
-    name: "Michael Johnson",
-    role: "Analyst",
-    avatar: "https://randomuser.me/api/portraits/men/7.jpg",
-  },
-  {
-    id: 8,
-    name: "Ethan Davis",
-    role: "Consultant",
-    avatar: "https://randomuser.me/api/portraits/men/8.jpg",
-  },
-  {
-    id: 9,
-    name: "David Wilson",
-    role: "Support",
-    avatar: "https://randomuser.me/api/portraits/men/9.jpg",
-  },
-  {
-    id: 10,
-    name: "Lucas Brown",
-    role: "Designer",
-    avatar: "https://randomuser.me/api/portraits/men/10.jpg",
-  },
-];
+import { useStore } from "@/store/useStore";
 
 export function QuickTransfer() {
+  const contacts = useStore((state) => state.contacts);
+
   const [showScrollRightButton, setShowScrollRightButton] = useState(false);
   const [showScrollLeftButton, setShowScrollLeftButton] = useState(false);
   const [amount, setAmount] = useState("525.50"); // State for the input amount
@@ -146,7 +79,7 @@ export function QuickTransfer() {
           ref={listRef}
           className="relative flex gap-[28px] overflow-x-auto hide-scrollbar py-2"
         >
-          {users.map((user) => {
+          {(contacts || []).map((user) => {
             const isSelected = user.id === selectedUserId;
             return (
               <div

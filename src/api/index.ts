@@ -6,7 +6,7 @@ import {
   ExpenseStatisticItem,
   Transaction,
   User,
-  WeeklyActivity,
+  WeeklyActivityItem,
 } from "@/types";
 import axios, { AxiosResponse } from "axios";
 
@@ -50,9 +50,11 @@ const fetchTransactions = async (): Promise<Transaction[] | undefined> => {
 };
 
 // Fetch weekly activity data
-const fetchWeeklyActivity = async (): Promise<WeeklyActivity | undefined> => {
+const fetchWeeklyActivity = async (): Promise<
+  WeeklyActivityItem[] | undefined
+> => {
   try {
-    const response: AxiosResponse<WeeklyActivity> = await api.get(
+    const response: AxiosResponse<WeeklyActivityItem[]> = await api.get(
       "/weekly-activity"
     );
     return response.data;

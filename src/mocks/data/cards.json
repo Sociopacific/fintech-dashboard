@@ -4,27 +4,13 @@
     "balance": 5756,
     "cardHolder": "Eddy Cusuma",
     "validThru": "12/22",
-    "cardNumber": 4234982518205372
+    "cardNumber": "4234982518205372"
   },
   {
     "id": 2,
     "balance": 8390,
     "cardHolder": "Eddy Cusuma",
     "validThru": "11/25",
-    "cardNumber": 9873165293726713
-  },
-  {
-    "id": 3,
-    "balance": 3450,
-    "cardHolder": "Eddy Cusuma",
-    "validThru": "05/24",
-    "cardNumber": 9178721637671232
-  },
-  {
-    "id": 4,
-    "balance": 10250,
-    "cardHolder": "Eddy Cusuma",
-    "validThru": "08/26",
-    "cardNumber": 3299871627678210
+    "cardNumber": "9873165293726713"
   }
 ]

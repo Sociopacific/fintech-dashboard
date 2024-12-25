@@ -1,5 +1,12 @@
-{
-  "labels": ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"],
-  "deposit": [500, 300, 200, 400, 300, 100, 400],
-  "withdraw": [200, 100, 300, 500, 400, 300, 200]
-}
+[
+  {
+    "name": "Withdraw",
+    "colorVar": "accent",
+    "data": [450, 300, 350, 450, 150, 400, 350]
+  },
+  {
+    "name": "Deposit",
+    "colorVar": "blue",
+    "data": [200, 100, 150, 300, 250, 200, 300]
+  }
+]

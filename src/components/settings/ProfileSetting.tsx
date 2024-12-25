@@ -92,7 +92,8 @@ export function ProfileSettings() {
   }, [user, setValue]);
 
   const onSubmit: SubmitHandler<User> = (data) => {
-    updateUser(data);
+    const updatedData = { ...data, profileImage };
+    updateUser(updatedData);
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -270,6 +271,8 @@ export function ProfileSettings() {
                         message: "Please enter a valid email",
                       },
                     }
+                  : id === UserFieldId.PASSWORD
+                  ? {} // No 'required' rule here, making password optional
                   : { required: "This field is required" };
 
               return (

@@ -3,40 +3,11 @@ import CardIcon from "@/assets/icons/card.svg?react";
 import TransferIcon from "@/assets/icons/transfer.svg?react";
 import PaypalIcon from "@/assets/icons/paypal.svg?react";
 import { formatUSDAmount, formatDate } from "@/utils";
+import { useStore } from "@/store/useStore";
+import { TransactionType } from "@/types";
 
 export const RecentTransactions = () => {
-  enum TransactionType {
-    CARD = "card",
-    TRANSFER = "transfer",
-    PAYPAL = "paypal",
-  }
-
-  interface Transaction {
-    type: TransactionType;
-    date: number; // Timestamp format
-    amount: number;
-    recipient?: string; // For PAYPAL and TRANSFER
-  }
-
-  const transactions: Transaction[] = [
-    {
-      type: TransactionType.CARD,
-      date: 1611792000000, // 28 January 2021
-      amount: -850,
-    },
-    {
-      type: TransactionType.PAYPAL,
-      date: 1611532800000, // 25 January 2021
-      amount: 2500,
-      recipient: "John Doe",
-    },
-    {
-      type: TransactionType.TRANSFER,
-      date: 1611187200000, // 21 January 2021
-      amount: 5400,
-      recipient: "Jane Smith",
-    },
-  ];
+  const transactions = useStore((state) => state.transactions);
 
   const colorMapping: Record<TransactionType, string> = {
     [TransactionType.CARD]: "yellow",
@@ -106,7 +77,7 @@ export const RecentTransactions = () => {
       animate="visible"
       variants={listVariants}
     >
-      {transactions.map((transaction, index) => (
+      {transactions?.map((transaction, index) => (
         <motion.li
           key={index}
           className="flex items-center gap-4 bg-white rounded-lg"

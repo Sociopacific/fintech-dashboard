@@ -21,18 +21,12 @@ function App() {
     setIsSidebarOpen(false);
   };
 
-  const fetchUser = useStore((state) => state.fetchUserData);
+  const fetchUser = useStore((state) => state.fetchUser);
   const user = useStore((state) => state.user);
   const isUserLoading = useStore((state) => state.isUserLoading);
 
   useEffect(() => {
-    console.table({
-      action: "Use effect called",
-      user,
-      isUserLoading,
-    });
     if (!user && !isUserLoading) {
-      console.log("Fetching user data...");
       fetchUser();
     }
   }, [user, isUserLoading]);

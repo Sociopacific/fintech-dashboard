@@ -1,6 +1,6 @@
 [
-  { "category": "Entertainment", "percentage": 25 },
-  { "category": "Bill Expense", "percentage": 12 },
-  { "category": "Investment", "percentage": 38 },
-  { "category": "Others", "percentage": 25 }
+  { "value": 38, "name": "Investment" },
+  { "value": 25, "name": "Entertainment" },
+  { "value": 12, "name": "Bill Expense" },
+  { "value": 25, "name": "Others" }
 ]

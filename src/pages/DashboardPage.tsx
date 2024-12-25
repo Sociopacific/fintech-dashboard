@@ -1,14 +1,83 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { CreditCard } from "../components/dashboard/CreditCard";
-import { RecentTransactions } from "../components/dashboard/RecentTransactions";
-import { WeeklyActivityChart } from "../components/dashboard/WeeklyActivityChart";
-import { ExpenseStatisticsChart } from "../components/dashboard/ExpenseStatisticsChart";
-import { QuickTransfer } from "../components/dashboard/QuickTransfer";
-import { BalanceHistoryChart } from "../components/dashboard/BalanceHistoryChart";
-import { Section } from "../components/ui/section";
-import { Tile } from "../components/ui/tile";
+import { useStore } from "@/store/useStore";
+import { CreditCard } from "@/components/dashboard/CreditCard";
+import { RecentTransactions } from "@/components/dashboard/RecentTransactions";
+import { WeeklyActivityChart } from "@/components/dashboard/WeeklyActivityChart";
+import { ExpenseStatisticsChart } from "@/components/dashboard/ExpenseStatisticsChart";
+import { QuickTransfer } from "@/components/dashboard/QuickTransfer";
+import { BalanceHistoryChart } from "@/components/dashboard/BalanceHistoryChart";
+import { Section } from "@/components/ui/section";
+import { Tile } from "@/components/ui/tile";
 
 export function DashboardPage() {
+  const fetchCards = useStore((state) => state.fetchCards);
+  const fetchTransactions = useStore((state) => state.fetchTransactions);
+  const fetchWeeklyActivity = useStore((state) => state.fetchWeeklyActivity);
+  const fetchExpenseStatistics = useStore(
+    (state) => state.fetchExpenseStatistics
+  );
+  const fetchContacts = useStore((state) => state.fetchContacts);
+  const fetchBalanceHistory = useStore((state) => state.fetchBalanceHistory);
+
+  const cards = useStore((state) => state.cards);
+  const transactions = useStore((state) => state.transactions);
+  const weeklyActivity = useStore((state) => state.weeklyActivity);
+  const expenseStatistics = useStore((state) => state.expenseStatistics);
+  const contacts = useStore((state) => state.contacts);
+  const balanceHistory = useStore((state) => state.balanceHistory);
+
+  const isCardsLoading = useStore((state) => state.isCardsLoading);
+  const isTransactionsLoading = useStore(
+    (state) => state.isTransactionsLoading
+  );
+  const isWeeklyActivityLoading = useStore(
+    (state) => state.isWeeklyActivityLoading
+  );
+  const isExpenseStatisticsLoading = useStore(
+    (state) => state.isExpenseStatisticsLoading
+  );
+  const isContactsLoading = useStore((state) => state.isContactsLoading);
+  const isBalanceHistoryLoading = useStore(
+    (state) => state.isBalanceHistoryLoading
+  );
+
+  useEffect(() => {
+    if (!cards && !isCardsLoading) {
+      fetchCards();
+    }
+  }, [cards, isCardsLoading]);
+
+  useEffect(() => {
+    if (!transactions && !isTransactionsLoading) {
+      fetchTransactions();
+    }
+  }, [transactions, isTransactionsLoading]);
+
+  useEffect(() => {
+    if (!weeklyActivity && !isWeeklyActivityLoading) {
+      fetchWeeklyActivity();
+    }
+  }, [weeklyActivity, isWeeklyActivityLoading]);
+
+  useEffect(() => {
+    if (!expenseStatistics && !isExpenseStatisticsLoading) {
+      fetchExpenseStatistics();
+    }
+  }, [expenseStatistics, isExpenseStatisticsLoading]);
+
+  useEffect(() => {
+    if (!contacts && !isContactsLoading) {
+      fetchContacts();
+    }
+  }, [contacts, isContactsLoading]);
+
+  useEffect(() => {
+    if (!balanceHistory && !isBalanceHistoryLoading) {
+      fetchBalanceHistory();
+    }
+  }, [balanceHistory, isBalanceHistoryLoading]);
+
   const navigate = useNavigate();
 
   const handleSeeAllClick = () => {
@@ -40,32 +109,26 @@ export function DashboardPage() {
       >
         <div className="relative overflow-x-auto hide-scrollbar size-[calc(100%+80px)] m-[-40px] pointer-events-none">
           <div className="flex gap-[30px] h-[calc(100%-80px)] min-w-min m-[40px]">
-            <Tile
-              className="max-md:w-[70vw] min-w-[240px] md:min-w-[332px] flex-1 pointer-events-auto"
-              index={0}
-            >
-              <CreditCard
-                id={1}
-                balance={5756}
-                cardHolder="Eddy Cusuma"
-                validThru="12/22"
-                cardNumber="3778123412341234"
-                theme="dark"
-              />
-            </Tile>
-            <Tile
-              className="min-w-[332px] flex-1 pointer-events-auto"
-              index={1}
-            >
-              <CreditCard
-                id={2}
-                balance={8390}
-                cardHolder="Eddy Cusuma"
-                validThru="11/25"
-                cardNumber="3434567890128756"
-                theme="light"
-              />
-            </Tile>
+            {cards && cards.length > 0 ? (
+              cards.map((card, index) => (
+                <Tile
+                  key={card.id}
+                  className="max-md:w-[70vw] min-w-[240px] md:min-w-[332px] flex-1 pointer-events-auto"
+                  index={index}
+                >
+                  <CreditCard
+                    id={card.id}
+                    balance={card.balance}
+                    cardHolder={card.cardHolder}
+                    validThru={card.validThru}
+                    cardNumber={card.cardNumber}
+                    theme={index % 2 === 0 ? "dark" : "light"} // Alternate theme
+                  />
+                </Tile>
+              ))
+            ) : (
+              <p>Loading cards...</p>
+            )}
           </div>
         </div>
       </Section>

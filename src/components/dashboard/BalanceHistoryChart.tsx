@@ -1,9 +1,9 @@
-import { useStore } from "@/store/useStore";
+// import { useStore } from "@/store/useStore";
 import { getCssVarColor } from "@/utils";
 import ReactECharts from "echarts-for-react";
 
 export const BalanceHistoryChart = () => {
-  const balanceHistory = useStore((state) => state.balanceHistory);
+  // const balanceHistory = useStore((state) => state.balanceHistory);
 
   const option = {
     xAxis: {

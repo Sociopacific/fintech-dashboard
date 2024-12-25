@@ -16,7 +16,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  @apply md:bg-background text-[14px] sm:text-[16px];
+  @apply bg-white md:bg-background text-[14px] sm:text-[16px];
 }
 
 @layer base {

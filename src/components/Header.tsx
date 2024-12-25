@@ -9,12 +9,15 @@ import NotificationsIcon from "@/assets/icons/notifications-outline.svg?react";
 import MenuIcon from "@/assets/icons/menu.svg?react";
 import { routes } from "@/routes";
 import { useMemo } from "react";
+import { useStore } from "@/store/useStore";
 
 interface HeaderProps {
   toggleSidebar: () => void;
 }
 
 export function Header({ toggleSidebar }: HeaderProps) {
+  const user = useStore((state) => state.user);
+
   const location = useLocation();
 
   const currentRouteName = useMemo(() => {
@@ -59,7 +62,7 @@ export function Header({ toggleSidebar }: HeaderProps) {
       <div className="size-[35px] sm:size-[60px] md:ml-[35px] rounded-full overflow-hidden">
         <NavLink to="/settings">
           <img
-            src="https://via.placeholder.com/80"
+            src={user?.profileImage || "https://via.placeholder.com/80"}
             alt="User Avatar"
             className="w-full h-full object-cover"
           />

@@ -7,19 +7,35 @@ import { Sidebar } from "@/components/Sidebar";
 import { Header } from "@/components/Header";
 import { routes } from "@/routes";
 import { useState } from "react";
+import { useStore } from "@/store/useStore";
+import { useEffect } from "react";
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  // Function to toggle the sidebar
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
   };
 
-  // Function to close the sidebar (useful for overlay click)
   const closeSidebar = () => {
     setIsSidebarOpen(false);
   };
+
+  const fetchUser = useStore((state) => state.fetchUserData);
+  const user = useStore((state) => state.user);
+  const isUserLoading = useStore((state) => state.isUserLoading);
+
+  useEffect(() => {
+    console.table({
+      action: "Use effect called",
+      user,
+      isUserLoading,
+    });
+    if (!user && !isUserLoading) {
+      console.log("Fetching user data...");
+      fetchUser();
+    }
+  }, [user, isUserLoading]);
 
   return (
     <div className="flex flex-col">

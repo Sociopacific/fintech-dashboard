@@ -1,31 +1,18 @@
-import React, { useState } from "react";
-import { useForm, SubmitHandler, UseFormRegisterReturn } from "react-hook-form";
+import React, { useState, useEffect } from "react";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { Input } from "@/components/ui/input";
+import { DatePicker } from "@/components/ui/date-picker";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import PencilIcon from "@/assets/icons/pencil.svg?react";
-
-export enum FieldId {
-  NAME = "name",
-  USERNAME = "username",
-  EMAIL = "email",
-  PASSWORD = "password",
-  DATE_OF_BIRTH = "dateOfBirth",
-  PERMANENT_ADDRESS = "permanentAddress",
-  PRESENT_ADDRESS = "presentAddress",
-  CITY = "city",
-  POSTAL_CODE = "postalCode",
-  COUNTRY = "country",
-  PROFILE_IMAGE = "profileImage",
-}
-
-type FormValues = Record<FieldId, string>;
+import { User, UserFieldId } from "@/types";
+import { useStore } from "@/store/useStore";
 
 interface InputFieldProps {
-  id: FieldId;
+  id: UserFieldId;
   label: string;
   type?: string;
-  register: UseFormRegisterReturn;
+  register: any;
   error?: string;
 }
 
@@ -45,6 +32,9 @@ const InputField: React.FC<InputFieldProps> = ({
       type={type}
       variant="outline"
       {...register}
+      className={`mt-1 block w-full ${
+        error ? "border-red-500" : "border-gray-300"
+      } rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
       aria-invalid={!!error}
       aria-describedby={`${id}-error`}
     />
@@ -56,56 +46,60 @@ const InputField: React.FC<InputFieldProps> = ({
   </div>
 );
 
-const formFields: { id: FieldId; label: string; type?: string }[] = [
-  { id: FieldId.NAME, label: "Your Name" },
-  { id: FieldId.USERNAME, label: "Username" },
-  { id: FieldId.EMAIL, label: "Email", type: "email" },
-  { id: FieldId.PASSWORD, label: "Password", type: "password" },
-  { id: FieldId.DATE_OF_BIRTH, label: "Date of Birth", type: "date" },
-  { id: FieldId.PRESENT_ADDRESS, label: "Present Address" },
-  { id: FieldId.PERMANENT_ADDRESS, label: "Permanent Address" },
-  { id: FieldId.CITY, label: "City" },
-  { id: FieldId.POSTAL_CODE, label: "Postal Code" },
-  { id: FieldId.COUNTRY, label: "Country" },
-];
-
 export function ProfileSettings() {
-  const [profileImage, setProfileImage] = useState<string>(
-    "https://via.placeholder.com/100"
-  );
+  const user = useStore((state) => state.user);
+  const updateUser = useStore((state) => state.updateUser);
+
+  const [profileImage, setProfileImage] = useState<string>("/avatar.jpg");
 
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
     setError,
     clearErrors,
-  } = useForm<FormValues>({
+    setValue,
+  } = useForm<User>({
+    mode: "onBlur",
     defaultValues: {
-      [FieldId.NAME]: "Charlene Reed",
-      [FieldId.USERNAME]: "CharleneReed",
-      [FieldId.EMAIL]: "charlenereed@gmail.com",
-      [FieldId.PASSWORD]: "",
-      [FieldId.DATE_OF_BIRTH]: "1990-01-25",
-      [FieldId.PERMANENT_ADDRESS]: "San Jose, California, USA",
-      [FieldId.PRESENT_ADDRESS]: "San Jose, California, USA",
-      [FieldId.CITY]: "San Jose",
-      [FieldId.POSTAL_CODE]: "45962",
-      [FieldId.COUNTRY]: "USA",
+      [UserFieldId.NAME]: user?.name || "",
+      [UserFieldId.USERNAME]: user?.username || "",
+      [UserFieldId.EMAIL]: user?.email || "",
+      [UserFieldId.PASSWORD]: "", // This will remain blank for security
+      [UserFieldId.DATE_OF_BIRTH]: user?.dateOfBirth || "",
+      [UserFieldId.PERMANENT_ADDRESS]: user?.permanentAddress || "",
+      [UserFieldId.PRESENT_ADDRESS]: user?.presentAddress || "",
+      [UserFieldId.CITY]: user?.city || "",
+      [UserFieldId.POSTAL_CODE]: user?.postalCode || "",
+      [UserFieldId.COUNTRY]: user?.country || "",
     },
   });
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log("Form data:", data);
-    // Implement data submission logic here (e.g., API call)
+  useEffect(() => {
+    // Sync user data with form if it changes
+    if (user) {
+      setValue(UserFieldId.NAME, user.name || "");
+      setValue(UserFieldId.USERNAME, user.username || "");
+      setValue(UserFieldId.EMAIL, user.email || "");
+      setValue(UserFieldId.DATE_OF_BIRTH, user.dateOfBirth || "");
+      setValue(UserFieldId.PERMANENT_ADDRESS, user.permanentAddress || "");
+      setValue(UserFieldId.PRESENT_ADDRESS, user.presentAddress || "");
+      setValue(UserFieldId.CITY, user.city || "");
+      setValue(UserFieldId.POSTAL_CODE, user.postalCode || "");
+      setValue(UserFieldId.COUNTRY, user.country || "");
+    }
+  }, [user, setValue]);
+
+  const onSubmit: SubmitHandler<User> = (data) => {
+    updateUser(data);
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      // Validate file type
       if (!file.type.startsWith("image/")) {
-        setError(FieldId.PROFILE_IMAGE, {
+        setError(UserFieldId.PROFILE_IMAGE, {
           type: "manual",
           message: "Please select a valid image file.",
         });
@@ -114,22 +108,45 @@ export function ProfileSettings() {
       const reader = new FileReader();
       reader.onloadend = () => {
         setProfileImage(reader.result as string);
-        clearErrors(FieldId.PROFILE_IMAGE);
+        clearErrors(UserFieldId.PROFILE_IMAGE);
       };
       reader.readAsDataURL(file);
     }
   };
 
+  const formFields: { id: UserFieldId; label: string; type?: string }[] = [
+    { id: UserFieldId.NAME, label: "Your Name" },
+    { id: UserFieldId.USERNAME, label: "Username" },
+    { id: UserFieldId.EMAIL, label: "Email", type: "email" },
+    { id: UserFieldId.PASSWORD, label: "Password", type: "password" },
+    {
+      id: UserFieldId.DATE_OF_BIRTH,
+      label: "Date of Birth",
+      type: "date-picker",
+    },
+    { id: UserFieldId.PRESENT_ADDRESS, label: "Present Address" },
+    { id: UserFieldId.PERMANENT_ADDRESS, label: "Permanent Address" },
+    { id: UserFieldId.CITY, label: "City" },
+    { id: UserFieldId.POSTAL_CODE, label: "Postal Code" },
+    { id: UserFieldId.COUNTRY, label: "Country" },
+  ];
+
+  const disableDates = (date: Date): boolean => {
+    const today = new Date();
+    return date > today;
+  };
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex items-start max-md:flex-col gap-16"
+      className="flex items-center md:items-start max-md:flex-col gap-16"
     >
+      {/* Profile Image Section */}
       <div className="relative md:ml-8">
         <img
           src={profileImage}
           alt="Profile"
-          className="w-24 h-24 rounded-full object-cover"
+          className="size-[100px] md:size-[90px] rounded-full object-cover"
         />
         <label
           htmlFor="profileImageInput"
@@ -151,34 +168,121 @@ export function ProfileSettings() {
         )}
       </div>
 
-      <div className="flex-1 flex flex-col items-end gap-10">
+      {/* Form Fields Section */}
+      <div className="w-full flex-1 flex flex-col items-end gap-10">
         <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
           {formFields.map(({ id, label, type }) => {
-            const registerOptions =
-              id === FieldId.EMAIL
-                ? {
-                    required:
-                      label !== "Password" ? "This field is required" : false,
-                    pattern: {
-                      value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-                      message: "Please enter a valid email address",
-                    },
-                  }
-                : {
-                    required:
-                      label !== "Password" ? "This field is required" : false,
-                  };
+            if (type === "date-picker") {
+              return (
+                <div className="flex flex-col" key={id}>
+                  <Label
+                    className="block text font-medium text-gray-700"
+                    htmlFor={id}
+                  >
+                    {label}
+                  </Label>
+                  <Controller
+                    control={control}
+                    name={id}
+                    rules={{
+                      required: "This field is required",
+                      validate: {
+                        validDate: (value) => {
+                          const [year, month, day] = value!
+                            .split("-")
+                            .map(Number);
+                          const date = new Date(year, month - 1, day);
+                          return (
+                            !isNaN(date.getTime()) ||
+                            "Please select a valid date"
+                          );
+                        },
+                        isOldEnough: (value) => {
+                          const [year, month, day] = value!
+                            .split("-")
+                            .map(Number);
+                          const date = new Date(year, month - 1, day);
+                          const today = new Date();
+                          const eighteenYearsAgo = new Date(
+                            today.getFullYear() - 18,
+                            today.getMonth(),
+                            today.getDate()
+                          );
+                          return (
+                            date <= eighteenYearsAgo ||
+                            "You must be at least 18 years old"
+                          );
+                        },
+                      },
+                    }}
+                    render={({ field }) => {
+                      const selectedDate = field.value
+                        ? new Date(
+                            parseInt(field.value.split("-")[0], 10),
+                            parseInt(field.value.split("-")[1], 10) - 1,
+                            parseInt(field.value.split("-")[2], 10)
+                          )
+                        : undefined;
 
-            return (
-              <InputField
-                key={id}
-                id={id}
-                label={label}
-                type={type}
-                register={register(id, registerOptions)}
-                error={errors[id]?.message}
-              />
-            );
+                      const handleSelect = (date: Date | undefined) => {
+                        if (date) {
+                          const year = date.getFullYear();
+                          const month = String(date.getMonth() + 1).padStart(
+                            2,
+                            "0"
+                          );
+                          const day = String(date.getDate()).padStart(2, "0");
+                          const formattedDate = `${year}-${month}-${day}`;
+                          field.onChange(formattedDate);
+                        } else {
+                          field.onChange("");
+                        }
+                      };
+
+                      return (
+                        <DatePicker
+                          selected={selectedDate}
+                          onSelect={handleSelect}
+                          label={label}
+                          className={
+                            errors[id] ? "border-red-500 mt-1" : "mt-1"
+                          }
+                          disabled={disableDates}
+                        />
+                      );
+                    }}
+                  />
+                  {errors[id] && (
+                    <p id={`${id}-error`} className="text-red-500 text-sm mt-1">
+                      {errors[id]?.message}
+                    </p>
+                  )}
+                </div>
+              );
+            } else {
+              const registerOptions =
+                id === UserFieldId.EMAIL
+                  ? {
+                      required: "This field is required",
+                      pattern: {
+                        value:
+                          /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+                        message: "Please enter a valid email",
+                      },
+                    }
+                  : { required: "This field is required" };
+
+              return (
+                <InputField
+                  key={id}
+                  id={id}
+                  label={label}
+                  type={type}
+                  register={register(id, registerOptions)}
+                  error={errors[id]?.message}
+                />
+              );
+            }
           })}
         </div>
 

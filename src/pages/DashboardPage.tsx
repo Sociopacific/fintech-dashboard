@@ -87,8 +87,8 @@ export function DashboardPage() {
   return (
     <div
       className="grid grid-cols-1 md:grid-cols-12
-      grid-rows-[211px_252px_280px_280px_250px_270px]
-      xs:grid-rows-[211px_252px_280px_280px_250px_270px]
+      grid-rows-[211px_247px_280px_280px_250px_270px]
+      xs:grid-rows-[211px_247px_280px_280px_250px_270px]
       sm:grid-rows-[282px_282px_367px_367px_323px_323px]
       md:grid-rows-[282px_367px_323px_323px_323px]
       xl:grid-rows-[282px_367px_323px]

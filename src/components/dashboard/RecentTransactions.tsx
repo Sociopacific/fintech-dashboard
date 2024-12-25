@@ -71,7 +71,7 @@ export const RecentTransactions = () => {
   };
 
   return (
-    <div className="relative size-full p-4 sm:p-[19px]">
+    <div className="relative size-full py-4 sm:py-[19px]">
       <div className="max-h-full overflow-y-auto hide-scrollbar">
         <motion.ul
           className="flex flex-col w-full"
@@ -82,7 +82,7 @@ export const RecentTransactions = () => {
           {transactions?.map((transaction, index) => (
             <motion.li
               key={index}
-              className="flex items-center gap-4 bg-white rounded-lg py-[5px] px-4"
+              className="flex items-center gap-4 bg-white rounded-lg py-[5px] px-[18px] sm:px-[25px]"
               variants={itemVariants}
               whileHover={{
                 scale: 1.03, // Slightly enlarge on hover

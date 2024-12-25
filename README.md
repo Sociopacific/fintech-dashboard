@@ -34,7 +34,7 @@ The application is deployed on [Vercel](https://vercel.com/) for seamless hostin
   - Displays multiple card details including balance, cardholder name, and partially masked card number.
   - "See All" button to navigate to the full list of cards.
 - **Recent Transactions**
-  - Lists recent transactions with icons, descriptions, dates, and amounts (positive & negative).
+  - Lists recent transactions with icons, descriptions, dates, and amounts (green & red).
 - **Weekly Activity Chart**
   - Interactive bar chart showing daily deposits and withdrawals for the week.
 - **Expense Statistics**

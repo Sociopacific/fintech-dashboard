@@ -15,5 +15,39 @@
     "date": 1611187200000,
     "amount": 5400,
     "recipient": "Jane Smith"
+  },
+  {
+    "type": "card",
+    "date": 1611859200000,
+    "amount": -1200
+  },
+  {
+    "type": "paypal",
+    "date": 1611628800000,
+    "amount": 3200,
+    "recipient": "Alice Johnson"
+  },
+  {
+    "type": "transfer",
+    "date": 1611292800000,
+    "amount": 7300,
+    "recipient": "Mark Brown"
+  },
+  {
+    "type": "card",
+    "date": 1611964800000,
+    "amount": -550
+  },
+  {
+    "type": "paypal",
+    "date": 1611715200000,
+    "amount": 1500,
+    "recipient": "Emma White"
+  },
+  {
+    "type": "transfer",
+    "date": 1611408000000,
+    "amount": 4100,
+    "recipient": "Tom Green"
   }
 ]

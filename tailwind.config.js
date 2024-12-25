@@ -65,8 +65,8 @@ export default {
           DEFAULT: "var(--line)",
           dashed: "var(--line)",
         },
-        positive: "var(--positive)",
-        negative: "var(--negative)",
+        green: "var(--green)",
+        red: "var(--red)",
         inactive: "var(--inactive)",
         blue: "var(--blue)",
         deepBlue: "var(--deep-blue)",
@@ -86,7 +86,7 @@ export default {
       pattern: /bg-(yellow|teal|blue|gray)/,
     },
     {
-      pattern: /text-(positive|negative)/,
+      pattern: /text-(green|red)/,
     },
     {
       pattern: /fill-(yellow|teal|blue|gray)/,

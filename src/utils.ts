@@ -47,6 +47,6 @@ export function formatUSDAmount(
     maximumFractionDigits: fractionDigits,
   });
 
-  // Prefix the sign (+ or -) depending on whether the amount is positive or negative
+  // Prefix the sign (+ or -) depending on whether the amount is green or red
   return amount < 0 ? `-${formatted}` : (showPlus ? "+" : "") + formatted;
 }

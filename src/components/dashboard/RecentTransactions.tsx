@@ -34,7 +34,7 @@ export const RecentTransactions = () => {
   };
 
   const getAmountColor = (amount: number): string => {
-    return amount < 0 ? "negative" : "positive";
+    return amount < 0 ? "red" : "green";
   };
 
   const getTitle = (
@@ -71,54 +71,56 @@ export const RecentTransactions = () => {
   };
 
   return (
-    <motion.ul
-      className="p-4 sm:p-6 flex flex-col justify-between size-full"
-      initial="hidden"
-      animate="visible"
-      variants={listVariants}
-    >
-      {transactions?.map((transaction, index) => (
-        <motion.li
-          key={index}
-          className="flex items-center gap-4 bg-white rounded-lg"
-          variants={itemVariants}
-          whileHover={{
-            scale: 1.03, // Slightly enlarge on hover
-            transition: { duration: 0.2 },
-          }}
+    <div className="relative size-full p-4 sm:p-[19px]">
+      <div className="max-h-full overflow-y-auto hide-scrollbar">
+        <motion.ul
+          className="flex flex-col w-full"
+          initial="hidden"
+          animate="visible"
+          variants={listVariants}
         >
-          <div className="relative flex-shrink-0 rounded-full size-[55px] flex items-center justify-center">
-            <div
-              className={`absolute inset-0 rounded-full bg-${getColorByType(
-                transaction.type
-              )} opacity-15`}
-            ></div>
-            <div className="relative z-10">
-              {getIconByType(transaction.type)}
-            </div>
-          </div>
-          <div className="flex flex-col gap-1.5">
-            <p className="font-medium text-accent leading-4">
-              {getTitle(
-                transaction.type,
-                transaction.amount,
-                transaction.recipient
-              )}
-            </p>
-            <p className="text-sm text-gray-500">
-              {formatDate(transaction.date)}
-            </p>
-          </div>
-          <span
-            className={`ml-auto font-medium text-${getAmountColor(
-              transaction.amount
-            )}`}
-          >
-            {formatUSDAmount(transaction.amount, true)}
-          </span>
-        </motion.li>
-      ))}
-    </motion.ul>
+          {transactions?.map((transaction, index) => (
+            <motion.li
+              key={index}
+              className="flex items-center gap-4 bg-white rounded-lg py-[5px] px-4"
+              variants={itemVariants}
+              whileHover={{
+                scale: 1.03, // Slightly enlarge on hover
+                transition: { duration: 0.2 },
+              }}
+            >
+              <div className="relative flex-shrink-0 rounded-full w-14 h-14 flex items-center justify-center">
+                <div
+                  className={`absolute inset-0 rounded-full bg-${getColorByType(
+                    transaction.type
+                  )} opacity-15`}
+                ></div>
+                <div className="relative z-10">
+                  {getIconByType(transaction.type)}
+                </div>
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <p className="font-medium text-accent leading-4">
+                  {getTitle(
+                    transaction.type,
+                    transaction.amount,
+                    transaction.recipient
+                  )}
+                </p>
+                <p className="text-sm">{formatDate(transaction.date)}</p>
+              </div>
+              <span
+                className={`ml-auto font-medium text-${getAmountColor(
+                  transaction.amount
+                )}`}
+              >
+                {formatUSDAmount(transaction.amount, true)}
+              </span>
+            </motion.li>
+          ))}
+        </motion.ul>
+      </div>
+    </div>
   );
 };
 

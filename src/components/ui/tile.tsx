@@ -27,7 +27,7 @@ type TileProps = {
 
 export const Tile = ({ children, index, className }: TileProps) => (
   <motion.div
-    className={`flex-1 max-w-full max-h-full rounded-3xl bg-white ${className}`}
+    className={`flex-1 min-h-0 min-w-0 rounded-3xl bg-white ${className}`}
     initial="hidden"
     animate="visible"
     variants={variants}
